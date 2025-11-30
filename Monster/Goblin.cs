@@ -1,7 +1,8 @@
 ﻿namespace MonsterKampfSimulator.Monster
 {
-    public class Goblin : Monster
+    public class Goblin : _Monster
     {
+        GameManager _Game = new GameManager();
         public float CritP;
         public Goblin(string _name, float _currentHP, float _AP, float _DP, float _SP, float _CritP = 25) : base(_name, _currentHP, _AP, _DP, _SP)
         {
@@ -9,8 +10,9 @@
             IsGoblin = true;
         }
 
-        public override void Attack(float _dmg, Monster _defender)
+        public override void Attack( _Monster _defender)
         {
+            float _dmg;
             Random rand = new Random();
             float critRoll = rand.Next(100);
 
@@ -24,6 +26,12 @@
                 _dmg = AP / _defender.DP * 5;
                 _defender.TakeDamage(_dmg);
             }
+        }
+
+        public override void MakeNoise(float _dmg)
+        {
+           
+            base.MakeNoise(_dmg);
         }
     }
 }

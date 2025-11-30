@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MonsterKampfSimulator.Monster
+
 {
-    public abstract class Monster
+    public abstract class _Monster
     {
         public string Name;
         public bool IsGoblin;
@@ -19,7 +20,10 @@ namespace MonsterKampfSimulator.Monster
         
         public bool IsAlive => CurrentHP > 0;
 
-        public Monster(string _name, float _currentHP, float _AP, float _DP, float _SP)
+        public List<_Monster> m_availableMonsters = new List<_Monster>();
+        public List<_Monster> m_selectedMonsters = new List<_Monster>();
+
+        public _Monster(string _name, float _currentHP, float _AP, float _DP, float _SP)
         {
             Name = _name;
             CurrentHP = _currentHP;
@@ -28,16 +32,25 @@ namespace MonsterKampfSimulator.Monster
             SP = _SP;
         }
 
-        public virtual void Attack(float _dmg, Monster _defender)
+        public virtual void Attack(_Monster _defender)
         {
-            _dmg = AP / _defender.DP * 2;
+            float _dmg = AP / _defender.DP * 2;
             _defender.TakeDamage(_dmg);
         }
 
         public virtual void TakeDamage(float _dmg)
         {
             CurrentHP -= _dmg;
-            Console.WriteLine($"Aua! Ich bin {Name} und mir wurden {_dmg} abgezogen");
+            MakeNoise(_dmg);
+        }
+
+        public virtual void MakeNoise(float _dmg) 
+        {
+            Console.Write($"Aua! Ich bin {Name} und mir wurden ");
+            OutputHelpers.WriteInColor($"{_dmg}", ConsoleColor.DarkRed);
+            Console.Write(" HP von");
+            OutputHelpers.WriteInColor($" {CurrentHP} ",ConsoleColor.Green);
+            Console.WriteLine("HP abgezogen");
         }
     }
 }

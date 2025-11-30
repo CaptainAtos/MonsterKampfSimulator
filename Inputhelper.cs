@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MonsterKampfSimulator
 {
-    internal class Inputhelper
+    public static class Inputhelper
     {
         public static bool CheckUserInputIntRange(string _input, int _min, int _max, out int _result)
         {

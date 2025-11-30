@@ -2,9 +2,11 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            GameManager Game = new GameManager();
+            Game.Run();
         }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MonsterKampfSimulator.Monster
 {
-    public class Ork : Monster
+    public class Ork : _Monster
     {
         public float DumbnessP;
 
@@ -10,8 +10,9 @@
             IsOrk = true;
         }
 
-        public override void Attack(float _dmg, Monster _defender)
+        public override void Attack( _Monster _defender)
         {
+            float _dmg;
             Random rand = new Random();
             float dumbnessRoll = rand.Next(100);
 
@@ -22,10 +23,15 @@
             }
             else if (dumbnessRoll <= DumbnessP)
             {
-                _dmg = CurrentHP - AP;
+                _dmg = AP;
                 TakeDamage(_dmg);
             }
 
+        }
+        public override void MakeNoise(float _dmg)
+        {
+
+            base.MakeNoise(_dmg);
         }
     }
 }
