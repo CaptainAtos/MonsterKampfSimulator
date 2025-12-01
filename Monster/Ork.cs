@@ -1,16 +1,15 @@
-﻿namespace MonsterKampfSimulator.Monster
+﻿namespace MonsterKampfSimulator.Monsters
 {
-    public class Ork : _Monster
+    public class Ork : Monster
     {
         public float DumbnessP;
 
         public Ork(string _name, float _currentHP, float _AP, float _DP, float _SP, float _DumbnessP = 10) : base(_name, _currentHP, _AP, _DP, _SP)
         {
             DumbnessP = _DumbnessP;
-            IsOrk = true;
         }
 
-        public override void Attack( _Monster _defender)
+        public override void Attack(Monster _defender)
         {
             float _dmg;
             Random rand = new Random();
@@ -18,20 +17,40 @@
 
             if (dumbnessRoll > DumbnessP)
             {
-                _dmg = AP / _defender.DP * 2;
+                _dmg = AP / _defender.DP * DamageMultiplier;
                 _defender.TakeDamage(_dmg);
             }
             else if (dumbnessRoll <= DumbnessP)
             {
                 _dmg = AP;
+                Console.WriteLine("Ork ist blind vor Wut und haut sich die Axt selber ins Gesicht.");
                 TakeDamage(_dmg);
             }
 
         }
         public override void MakeNoise(float _dmg)
         {
+            Random rand = new Random();
+            float Speaktxt = rand.Next(100);
 
-            base.MakeNoise(_dmg);
+            if (Speaktxt <= 25)
+            {   base.MakeNoise(_dmg);
+                OutputHelpers.WriteInColorLine("Grraaaah ! Du hast meine Ehre als Krieger beschmutzt !", ConsoleColor.Blue);
+            }
+            else if (Speaktxt > 25 && Speaktxt <= 50)
+            {   base.MakeNoise(_dmg);
+                OutputHelpers.WriteInColorLine("HAHA ! Glaubst du das hat ORK WEHGETAN ?!", ConsoleColor.Blue);
+            }
+            else if (Speaktxt > 50 && Speaktxt <= 75)
+            {   base.MakeNoise(_dmg);
+                OutputHelpers.WriteInColorLine("GAAAAAARRRRRHHHHHH", ConsoleColor.Blue);
+            }
+            else if (Speaktxt > 75 && Speaktxt <= 100)
+            {   base.MakeNoise(_dmg);
+                OutputHelpers.WriteInColorLine("Aaaaa. RUUUUAAAR", ConsoleColor.Blue);
+            }
+            else
+                base.MakeNoise(_dmg);
         }
     }
 }

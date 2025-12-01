@@ -1,4 +1,4 @@
-﻿using MonsterKampfSimulator.Monster;
+﻿using MonsterKampfSimulator.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,7 @@ namespace MonsterKampfSimulator
         None,
         Goblin, 
         Ork,
+        Troll,
         Max
     }
 }

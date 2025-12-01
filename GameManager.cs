@@ -1,15 +1,10 @@
-﻿using MonsterKampfSimulator.Monster;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MonsterKampfSimulator.Monsters;
 
 namespace MonsterKampfSimulator
 {
     public class GameManager
     {
-        public List<_Monster> m_selectedMonsters = new List<_Monster>();
+        private List<Monster> m_selectedMonsters = new List<Monster>();
         public void Init()
         {
             InitiateMonsterlist();
@@ -18,11 +13,10 @@ namespace MonsterKampfSimulator
         public void Run()
         {
             Init();
-            RoundCounter();
             OutputHelpers.WriteInColorLine("Der Kampf beginnt!", ConsoleColor.DarkRed);
+            RoundCounter();
         }
 
-        // public void End()
 
         private void InitiateMonsterlist()
         {
@@ -31,9 +25,7 @@ namespace MonsterKampfSimulator
             DisplaySelectedMonster();
             CreateMonster();
             DisplaySelectedMonster();
-
         }
-
         private void CreateMonster()
         {
             EMonsterType monsterType = ChooseMonsterType();
@@ -44,7 +36,7 @@ namespace MonsterKampfSimulator
             int VP = SetPoint("VP", 20, 80);
             int SP = SetPoint("SP", 1, 100);
 
-            _Monster playerMonster = null!;
+            Monster playerMonster = null!;
 
             if (monsterType == EMonsterType.Goblin)
             {
@@ -54,17 +46,23 @@ namespace MonsterKampfSimulator
             {
                 playerMonster = new Ork(name, HP, AP, VP, SP);
             }
+            else if (monsterType == EMonsterType.Troll)
+            {
+                playerMonster = new Troll(name, HP, AP, VP, SP);
+            }
 
             m_selectedMonsters.Add(playerMonster!);
 
         }
-        private static EMonsterType ChooseMonsterType()
+        private EMonsterType ChooseMonsterType()
         {
             int choice = 0;
+            int firstchoice;
 
             Console.WriteLine("\nWähle die Rasse deines Monsters:");
             Console.WriteLine("1. Goblin");
             Console.WriteLine("2. Ork");
+            Console.WriteLine("3. Troll");
             Console.WriteLine("Gib die Zahl für die Auswahl ein:");
 
             bool correctInput = false;
@@ -72,27 +70,43 @@ namespace MonsterKampfSimulator
             {
                 correctInput = Inputhelper.CheckUserInputIntRange(Console.ReadLine()!, (int)EMonsterType.None + 1, (int)EMonsterType.Max - 1, out choice);
                 if (!correctInput)
-                    Console.WriteLine("Ungültige Eingabe. Bitte wähle entweder '1' für Goblin oder '2' für Ork.");
+                    Console.WriteLine("Ungültige Eingabe. Bitte wähle entweder '1' für Goblin,'2' für Ork oder '3'für Troll.");
             }
 
             if (choice == 1)
             {
                 return EMonsterType.Goblin;
             }
-            else
+            else if (choice == 2)
             {
                 return EMonsterType.Ork;
             }
+            else if (choice == 3)
+            {
+                return EMonsterType.Troll;
+            }
+            else
+                return EMonsterType.None;
+
+
+
         }
+
+
+
+
         // TODO : Maximale Points einführen. Spieler hat begrenzte Anzahl an Punkten die er auf alle Stats verteilen kann. 
-        private static int SetPoint(string stat, int min, int max)
+
+
+
+        private int SetPoint(string stat, int min, int max)
         {
             bool correctInput = false;
             int point = 0;
 
             while (!correctInput)
             {
-                OutputHelpers.WriteInColorLine($"Setze jetzt die {stat} zwischen {min} und {max}",ConsoleColor.Green);
+                Console.WriteLine($"Setze jetzt die {stat} zwischen {min} und {max}");
                 string consoleInput = Console.ReadLine()!;
                 correctInput = Inputhelper.CheckUserInputIntRange(consoleInput, min, max, out point);
                 if (!correctInput)
@@ -110,11 +124,11 @@ namespace MonsterKampfSimulator
             }
         }
 
-        public void RoundCounter()
+        private void RoundCounter()
         {
-            int _round = 0;
-            _Monster M1 = m_selectedMonsters[0];
-            _Monster M2 = m_selectedMonsters[1];
+            int _round = 1;
+            Monster M1 = m_selectedMonsters[0];
+            Monster M2 = m_selectedMonsters[1];
 
             while (M1.IsAlive && M2.IsAlive)
             {
@@ -128,19 +142,21 @@ namespace MonsterKampfSimulator
             if (M1.IsAlive)
             {
                 Console.WriteLine($"{M1.Name} hat gewonnen!");
+                Console.WriteLine($"Der Kampf hat {_round} Runden gedauert");
             }
             else
             {
                 Console.WriteLine($"{M2.Name} hat gewonnen");
+                Console.WriteLine($"Der Kampf hat {_round} Runden gedauert");
             }
 
 
         }
 
-        private void AttackLoop(_Monster M1, _Monster M2)
+        private void AttackLoop(Monster M1, Monster M2)
         {
-            _Monster first = M1;
-            _Monster second = M2;
+            Monster first = M1;
+            Monster second = M2;
 
             // Wählt aus welches Monster zuerst angreifen darf anhand seine "Speedpoints"
             if (M1.SP > M2.SP)
@@ -167,7 +183,7 @@ namespace MonsterKampfSimulator
                 }
             }
             first.Attack(second);
-            if (!second.IsAlive) return;
+            if (!second.IsAlive) return; 
             second.Attack(first);
         }
     }
