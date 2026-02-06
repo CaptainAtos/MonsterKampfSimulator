@@ -6,9 +6,6 @@
         {
             GameManager Game = new GameManager();
             Game.Run();
-
-            // TODO : Skillpoints; Kommentieren und Dokumentieren; Namingconvention beachten.
         }
-
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MonsterKampfSimulator
 {
-    public static class Inputhelper
+    public static class InputHelper     // Wandelt die Usereingabe vom String in ein Integer um solange es auch Zahlen waren.
     {
         public static bool CheckUserInputIntRange(string _input, int _min, int _max, out int _result)
         {

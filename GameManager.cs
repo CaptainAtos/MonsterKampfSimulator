@@ -5,12 +5,12 @@ namespace MonsterKampfSimulator
     public class GameManager
     {
         private List<Monster> m_selectedMonsters = new List<Monster>();
-        public void Init()
+        public void Init() 
         {
             InitiateMonsterlist();
         }
 
-        public void Run()
+        public void Run() // Legt eine logische Reihenfolge der auszuführenden Methoden fest
         {
             Init();
             OutputHelpers.WriteInColorLine("Der Kampf beginnt!", ConsoleColor.DarkRed);
@@ -18,7 +18,7 @@ namespace MonsterKampfSimulator
         }
 
 
-        private void InitiateMonsterlist()
+        private void InitiateMonsterlist()  // Erstellt Monsterobjekte und instanziert eine Monsterliste.
         {
             Console.WriteLine("Willkommen im Monsterclashsimulator \n Erstelle dein erstes Monster:");
             CreateMonster();
@@ -26,7 +26,7 @@ namespace MonsterKampfSimulator
             CreateMonster();
             DisplaySelectedMonster();
         }
-        private void CreateMonster()
+        private void CreateMonster()    // Anleitung und Führung zum erstellen eines Monsters mithilfe von Konstruktoren.
         {
             EMonsterType monsterType = ChooseMonsterType();
             Console.WriteLine("Gib jetzt den Namen deines Monsters ein");
@@ -54,7 +54,7 @@ namespace MonsterKampfSimulator
             m_selectedMonsters.Add(playerMonster!);
 
         }
-        private EMonsterType ChooseMonsterType()
+        private EMonsterType ChooseMonsterType()    // Definiert die Monsterrasse 
         {
             int choice = 0;
             int firstchoice;
@@ -68,7 +68,7 @@ namespace MonsterKampfSimulator
             bool correctInput = false;
             while (!correctInput)
             {
-                correctInput = Inputhelper.CheckUserInputIntRange(Console.ReadLine()!, (int)EMonsterType.None + 1, (int)EMonsterType.Max - 1, out choice);
+                correctInput = InputHelper.CheckUserInputIntRange(Console.ReadLine()!, (int)EMonsterType.None + 1, (int)EMonsterType.Max - 1, out choice);
                 if (!correctInput)
                     Console.WriteLine("Ungültige Eingabe. Bitte wähle entweder '1' für Goblin,'2' für Ork oder '3'für Troll.");
             }
@@ -87,19 +87,9 @@ namespace MonsterKampfSimulator
             }
             else
                 return EMonsterType.None;
-
-
-
         }
 
-
-
-
-        // TODO : Maximale Points einführen. Spieler hat begrenzte Anzahl an Punkten die er auf alle Stats verteilen kann. 
-
-
-
-        private int SetPoint(string stat, int min, int max)
+        private int SetPoint(string stat, int min, int max)     //User kann die Statpunkte der Monster hiermit definieren
         {
             bool correctInput = false;
             int point = 0;
@@ -108,14 +98,14 @@ namespace MonsterKampfSimulator
             {
                 Console.WriteLine($"Setze jetzt die {stat} zwischen {min} und {max}");
                 string consoleInput = Console.ReadLine()!;
-                correctInput = Inputhelper.CheckUserInputIntRange(consoleInput, min, max, out point);
+                correctInput = InputHelper.CheckUserInputIntRange(consoleInput, min, max, out point);
                 if (!correctInput)
                     Console.WriteLine($"Ungültige Eingabe!");
             }
             return point;
         }
 
-        private void DisplaySelectedMonster()
+        private void DisplaySelectedMonster()   // Schreibt bei Nutzung der Methode das aktuelle Monster mit Namen auf
         {
             Console.WriteLine("Deine ausgewählten Monster:");
             for (int i = 0; i < m_selectedMonsters.Count; i++)
@@ -124,7 +114,7 @@ namespace MonsterKampfSimulator
             }
         }
 
-        private void RoundCounter()
+        private void RoundCounter() // Roundcounter definiert den Kampf und die Runden indem er abwechselnd die Fertigkeiten der Monster einsetzt (ruft den AttackLoop auf) und die Runden mitzählt bis ein Monster verliert
         {
             int _round = 1;
             Monster M1 = m_selectedMonsters[0];
@@ -153,7 +143,7 @@ namespace MonsterKampfSimulator
 
         }
 
-        private void AttackLoop(Monster M1, Monster M2)
+        private void AttackLoop(Monster M1, Monster M2)     // Ein Loop der dazu dient zu definieren welches Monster anhand seiner Stats zuerst angreifen darf
         {
             Monster first = M1;
             Monster second = M2;
