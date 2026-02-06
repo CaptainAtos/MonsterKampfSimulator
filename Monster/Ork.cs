@@ -4,12 +4,12 @@
     {
         public float DumbnessP;
 
-        public Ork(string _name, float _currentHP, float _AP, float _DP, float _SP, float _DumbnessP = 10) : base(_name, _currentHP, _AP, _DP, _SP)
+        public Ork(string _name, float _currentHP, float _AP, float _DP, float _SP, float _DumbnessP = 10) : base(_name, _currentHP, _AP, _DP, _SP) // Konstruktor
         {
             DumbnessP = _DumbnessP;
         }
 
-        public override void Attack(Monster _defender)
+        public override void Attack(Monster _defender) //Definiert den Damage und überschreibt Klassenabhängig die Sonderfertigkeiten und DMG.
         {
             float _dmg;
             Random rand = new Random();
@@ -28,7 +28,7 @@
             }
 
         }
-        public override void MakeNoise(float _dmg)
+        public override void MakeNoise(float _dmg) // Übergibt den Damage des Angriffs und ruft Random unterschiedliche Kommentare der Monster hervor.
         {
             Random rand = new Random();
             float Speaktxt = rand.Next(100);

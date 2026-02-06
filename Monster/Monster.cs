@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MonsterKampfSimulator.Monsters
 
 {
-    public abstract class Monster
+    public abstract class Monster 
     {
         public string Name;
         public float CurrentHP; // Aktuelle HP
@@ -19,7 +19,7 @@ namespace MonsterKampfSimulator.Monsters
 
         public bool IsAlive => CurrentHP > 0;
 
-        public Monster(string _name, float _currentHP, float _AP, float _DP, float _SP)
+        public Monster(string _name, float _currentHP, float _AP, float _DP, float _SP) //Standardkonstruktor
         {
             Name = _name;
             CurrentHP = _currentHP;
@@ -28,19 +28,19 @@ namespace MonsterKampfSimulator.Monsters
             SP = _SP;
         }
 
-        public virtual void Attack(Monster _defender)
+        public virtual void Attack(Monster _defender)  // Standard Attackmethode
         {
             float _dmg = AP / _defender.DP * 2;
             _defender.TakeDamage(_dmg);
         }
 
-        public virtual void TakeDamage(float _dmg)
+        public virtual void TakeDamage(float _dmg) // Standard TakeDamagemethode
         {
             CurrentHP -= _dmg;
             MakeNoise(_dmg);
         }
 
-        public virtual void MakeNoise(float _dmg) 
+        public virtual void MakeNoise(float _dmg)  // Standard und Vorlage für überschriebene MakeNoiseMethoden
         {
             Console.Write($"Dem Monster {Name} wurde ");
             OutputHelpers.WriteInColor($"{_dmg}", ConsoleColor.DarkRed);
