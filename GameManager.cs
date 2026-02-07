@@ -4,7 +4,7 @@ namespace MonsterKampfSimulator
 {
     public class GameManager
     {
-        private List<Monster> m_selectedMonsters = new List<Monster>();
+        private List<Monster> m_selectedMonsters = [];
         public void Init() 
         {
             InitiateMonsterlist();
@@ -54,10 +54,9 @@ namespace MonsterKampfSimulator
             m_selectedMonsters.Add(playerMonster!);
 
         }
-        private EMonsterType ChooseMonsterType()    // Definiert die Monsterrasse 
+        private static EMonsterType ChooseMonsterType()    // Definiert die Monsterrasse 
         {
             int choice = 0;
-            int firstchoice;
 
             Console.WriteLine("\nWähle die Rasse deines Monsters:");
             Console.WriteLine("1. Goblin");
@@ -89,7 +88,7 @@ namespace MonsterKampfSimulator
                 return EMonsterType.None;
         }
 
-        private int SetPoint(string stat, int min, int max)     //User kann die Statpunkte der Monster hiermit definieren
+        private static int SetPoint(string stat, int min, int max)     //User kann die Statpunkte der Monster hiermit definieren
         {
             bool correctInput = false;
             int point = 0;
@@ -143,7 +142,7 @@ namespace MonsterKampfSimulator
 
         }
 
-        private void AttackLoop(Monster M1, Monster M2)     // Ein Loop der dazu dient zu definieren welches Monster anhand seiner Stats zuerst angreifen darf
+        private static void AttackLoop(Monster M1, Monster M2)     // Ein Loop der dazu dient zu definieren welches Monster anhand seiner Stats zuerst angreifen darf
         {
             Monster first = M1;
             Monster second = M2;
