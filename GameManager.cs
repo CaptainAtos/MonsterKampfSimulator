@@ -29,6 +29,13 @@ namespace MonsterKampfSimulator
         private void CreateMonster()    // Anleitung und Führung zum erstellen eines Monsters mithilfe von Konstruktoren.
         {
             EMonsterType monsterType = ChooseMonsterType();
+
+            while (m_selectedMonsters.Count == 1 && monsterType == GetMonsterTypeFromInstance(m_selectedMonsters[0])) 
+            {
+                Console.WriteLine("Du darfst keine zwei Monster der gleichen Rasse wählen. Bitte wähle eine andere Rasse.");
+                monsterType = ChooseMonsterType();
+            }
+                
             Console.WriteLine("Gib jetzt den Namen deines Monsters ein");
             string name = Console.ReadLine()!;
             int HP = SetPoint("HP", 1, 100);
@@ -50,9 +57,15 @@ namespace MonsterKampfSimulator
             {
                 playerMonster = new Troll(name, HP, AP, VP, SP);
             }
-
             m_selectedMonsters.Add(playerMonster!);
+        }
 
+        private static EMonsterType GetMonsterTypeFromInstance(Monster monster)
+        {
+            if (monster is Goblin) return EMonsterType.Goblin;
+            if (monster is Ork) return EMonsterType.Ork;
+            if (monster is Troll) return EMonsterType.Troll;
+            return EMonsterType.None;
         }
         private static EMonsterType ChooseMonsterType()    // Definiert die Monsterrasse 
         {
@@ -159,17 +172,10 @@ namespace MonsterKampfSimulator
                 second = M1;
             }
             else
-            { // Wenn beide Monster die selben "Speedpoints" darf der mit den höheren "Attackpoints" angreifen
-                if (M1.AP > M2.AP)
-                {
-                    first = M1;
-                    second = M2;
-                }
-                else if (M1.AP < M2.AP)
-                {
-                    first = M2;
-                    second = M1;
-                }
+            { // Wenn beide Monster die selben "Speedpoints" wird per Zufall entschieden wer angreifen darf.
+                bool m1Starts = Random.Shared.Next(2) == 0;
+                first = m1Starts ? M1 : M2;
+                second = m1Starts ? M2 : M1;
             }
             first.Attack(second);
             if (!second.IsAlive) return; 
